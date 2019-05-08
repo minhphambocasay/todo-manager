@@ -15,7 +15,7 @@ export default () => {
   return (
     <PageHeaderWrapper>
       <Card bordered={false}>
-        {/* <HookComponent /> */}
+        <HookComponent />
         {/* <ComparationComponent value={value} />
         <input onChange={onChangeValue} /> */}
         {/* {value} */}

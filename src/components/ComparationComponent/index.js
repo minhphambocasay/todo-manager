@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
 
-const ComparationComponent = React.memo(({value}) => {
-    const [prevValue, setPrevValue] = useState(null);
-    const [status, setStatus] = useState("equal");
-
+const useChangedValue = ({value}) => {
+    const [prevValue, setPrevValue] = useState(value);
     if (value !== prevValue) {
-        setStatus(value < prevValue ? "smaller" : "bigger")
-        setPrevValue(value)
+      setPrevValue(value)
     }
 
-    return (
-      <div>
-        <h1>{status}</h1>
-      </div>
-    );
-})
+    return value !== prevValue;
+}
 
-export default ComparationComponent
+export default useChangedValue

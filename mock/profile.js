@@ -169,9 +169,9 @@ export default {
     };
     res.json({
       userInfo,
-      application,
-      basicGoods,
-      basicProgress,
+      // application,
+      // basicGoods,
+      // basicProgress,
     });
   },
 };

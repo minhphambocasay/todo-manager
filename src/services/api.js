@@ -104,9 +104,9 @@ export async function updateFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
-    method: 'POST',
-    data: params,
+  return request('/users/nvtcp9x/repos?type=all&sort=updated', {
+    method: 'GET',
+    // data: params,
   });
 }
 
