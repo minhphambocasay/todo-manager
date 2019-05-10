@@ -24,12 +24,7 @@ function getModulePackageName(module) {
 }
 
 export default config => {
-  // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
-  if (
-    process.env.ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site' ||
-    process.env.NODE_ENV !== 'production'
-  ) {
-    // 将所有 less 合并为一个供 themePlugin使用
+  if ( process.env.DEV_MODE === 'site' || process.env.NODE_ENV !== 'production' ) {
     const outFile = path.join(__dirname, '../.temp/ant-design-pro.less');
     const stylesDir = path.join(__dirname, '../src/');
 
@@ -48,7 +43,7 @@ export default config => {
         mainLessFile: outFile, //     themeVariables: ['@primary-color'],
         indexFileName: 'index.html',
         generateOne: true,
-        lessUrl: 'https://gw.alipayobjects.com/os/lib/less.js/3.8.1/less.min.js',
+        lessUrl: 'https://cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js',
       },
     ]);
   }

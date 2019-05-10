@@ -1,16 +1,16 @@
-import analysis from './pt-BR/analysis';
-import exception from './pt-BR/exception';
-import form from './pt-BR/form';
-import globalHeader from './pt-BR/globalHeader';
-import login from './pt-BR/login';
-import menu from './pt-BR/menu';
-import monitor from './pt-BR/monitor';
-import result from './pt-BR/result';
-import settingDrawer from './pt-BR/settingDrawer';
-import settings from './pt-BR/settings';
-import pwa from './pt-BR/pwa';
-import component from './pt-BR/component';
-import editor from './pt-BR/editor';
+import analysis from './fr-FR/analysis';
+import exception from './fr-FR/exception';
+import form from './fr-FR/form';
+import globalHeader from './fr-FR/globalHeader';
+import login from './fr-FR/login';
+import menu from './fr-FR/menu';
+import monitor from './fr-FR/monitor';
+import result from './fr-FR/result';
+import settingDrawer from './fr-FR/settingDrawer';
+import settings from './fr-FR/settings';
+import pwa from './fr-FR/pwa';
+import component from './fr-FR/component';
+import editor from './fr-FR/editor';
 
 export default {
   'navBar.lang': 'Idiomas',

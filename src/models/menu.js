@@ -74,8 +74,8 @@ const filterMenuData = menuData => {
     .filter(item => item);
 };
 /**
- * 获取面包屑映射
- * @param {Object} menuData 菜单配置
+ * Get breadcrumb mapping
+ * @param {Object} menuData Menu configuration
  */
 const getBreadcrumbNameMap = menuData => {
   if (!menuData) {

@@ -25,7 +25,7 @@ export const getMenuMatches = (flatMenuKeys, path) =>
     return false;
   });
 /**
- * 获得菜单子节点
+ * Get menu subnode
  * @memberof SiderMenu
  */
 export const getDefaultCollapsedSubMenus = props => {

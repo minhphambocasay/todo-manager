@@ -1,31 +1,30 @@
 /**
- * request 网络请求工具
- * 更详细的api文档: https://bigfish.alipay.com/doc/api#request
- */
+  https://bigfish.alipay.com/doc/api#request
+*/
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 import router from 'umi/router';
 
 const codeMessage = {
-  200: '服务器成功返回请求的数据。',
-  201: '新建或修改数据成功。',
-  202: '一个请求已经进入后台排队（异步任务）。',
-  204: '删除数据成功。',
-  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户没有权限（令牌、用户名、密码错误）。',
-  403: '用户得到授权，但是访问是被禁止的。',
-  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-  406: '请求的格式不可得。',
-  410: '请求的资源被永久删除，且不会再得到的。',
-  422: '当创建一个对象时，发生一个验证错误。',
-  500: '服务器发生错误，请检查服务器。',
-  502: '网关错误。',
-  503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
+  200: 'The server successfully returned the requested data',
+  201: 'New or modified data is successful.',
+  202: 'A request has entered the background queue (asynchronous task).',
+  204: 'The data was deleted successfully.',
+  400: 'The request was made with an error and the server did not perform any operations to create or modify data.',
+  401: 'User does not have permission (token, username, password is incorrect).',
+  403: 'The user is authorized, but access is forbidden.',
+  404: 'The request is made for a record that does not exist and the server does not operate.',
+  406: 'The format of the request is not available. format of the request is not available.可得。',
+  410: 'The requested resource is permanently deleted and will not be retrieved.',
+  422: 'A validation error occurred when creating an object.',
+  500: 'An error occurred on the server. Please check the server.',
+  502: 'Gateway error.',
+  503: 'The service is unavailable, the server is temporarily overloaded or maintained.',
+  504: 'The gateway timed out.',
 };
 
 /**
- * 异常处理程序
+ * Exception handler
  */
 const errorHandler = error => {
   const { response = {} } = error;
@@ -62,11 +61,11 @@ const errorHandler = error => {
 };
 
 /**
- * 配置request请求时的默认参数
+ * Default parameters when configuring request 
  */
 const request = extend({
-  errorHandler, // 默认错误处理
-  credentials: 'include', // 默认请求是否带上cookie
+  errorHandler, // Default error handling
+  // credentials: 'include', // Whether the default request comes with a cookie
 });
 
 export default request;

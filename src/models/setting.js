@@ -4,15 +4,14 @@ import defaultSettings from '../defaultSettings';
 let lessNodesAppended;
 const updateTheme = primaryColor => {
   // Don't compile less in production!
-  // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
-  if (ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION !== 'site') {
+  if (DEV_MODE !== 'site') {
     return;
   }
   // Determine if the component is remounted
   if (!primaryColor) {
     return;
   }
-  const hideMessage = message.loading('正在编译主题！', 0);
+  const hideMessage = message.loading('Compiling the theme!', 0);
   function buildIt() {
     if (!window.less) {
       return;
@@ -45,7 +44,7 @@ const updateTheme = primaryColor => {
         javascriptEnabled: true
       };
     `;
-    lessScriptNode.src = 'https://gw.alipayobjects.com/os/lib/less.js/3.8.1/less.min.js';
+    lessScriptNode.src = 'https://cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js';
     lessScriptNode.async = true;
     lessScriptNode.onload = () => {
       buildIt();

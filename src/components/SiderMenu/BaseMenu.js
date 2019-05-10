@@ -30,7 +30,7 @@ const getIcon = icon => {
 
 export default class BaseMenu extends PureComponent {
   /**
-   * 获得菜单子节点
+   * Get menu subnode
    * @memberof SiderMenu
    */
   getNavMenuItems = menusData => {

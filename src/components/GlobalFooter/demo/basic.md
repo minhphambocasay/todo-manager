@@ -32,7 +32,7 @@ const links = [
 
 const copyright = (
   <div>
-    Copyright <Icon type="copyright" /> 2017 蚂蚁金服体验技术部出品
+    Copyright <Icon type="copyright" /> 2019 Bocasay
   </div>
 );
 
