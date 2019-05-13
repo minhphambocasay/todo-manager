@@ -1,20 +1,58 @@
-import React, { useEffect } from 'react';
+/* eslint-disable no-param-reassign */
+import React, { useEffect, useState } from 'react';
 import { connect } from 'dva';
-
-const Note = ({ loading, notes, dispatch }) => {
+import NoteItem from '../NoteItem';
+// import NoteItem from ./
+const Note = ({ notes, dispatch, handleOnKeyPress, handleCreateNote }) => {
   // console.log(dispatch)
+  const [inputValue, setInputValue] = useState('');
   useEffect(() => {
     dispatch({
-      type: 'noteModel/getNotes',
+      type: 'noteModel/GET_ALL_NOTES',
     });
   }, []);
-  console.log('render');
-  const notesArr = notes ? notes.map(note => <li>{note.name}</li>) : 'Hello';
-  console.log(notes);
-  return <div>{loading ? 'Loading' : notesArr}</div>;
+  handleCreateNote = data => {
+    // eslint-disable-line no-param-reassign
+    dispatch({
+      type: 'noteModel/CREATE_NOTE',
+      payload: data,
+    });
+  };
+
+  handleOnKeyPress = e => {
+    // eslint-disable-line no-param-reassign
+    if (e.key === 'Enter') {
+      handleCreateNote(inputValue);
+      setInputValue('');
+    } else {
+      setInputValue(inputValue + e.key);
+    }
+  };
+
+  return (
+    <div className="note">
+      <div className="noteInput">
+        <input onKeyPress={handleOnKeyPress} value={inputValue} />
+        <div onClick={() => handleCreateNote}>Add note</div>
+      </div>
+      {notes && notes.length ? (
+        <div className="noteItems">
+          {notes.map(item => {
+            return <NoteItem item={item} />;
+          })}
+        </div>
+      ) : (
+        // eslint-disable-next-line react/jsx-indent
+        <div className="noNote">Please add some notes</div>
+      )}
+      <div />
+    </div>
+  );
 };
 
-export default connect(({ noteModel, loading }) => ({
-  notes: noteModel.notes,
-  loading: loading.models.noteModel,
-}))(Note);
+export default connect(({ noteModel, loading }) => {
+  return {
+    notes: noteModel.notes,
+    loading: loading.models.noteModel,
+  };
+})(Note);
