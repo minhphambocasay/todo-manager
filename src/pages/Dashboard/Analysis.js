@@ -1,10 +1,13 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'dva';
 
+@connect(({ user }) => ({
+  user,
+}))
 class Analysis extends PureComponent {
   render() {
-    return (
-      <div>This is Analysis Page</div>
-    );
+    console.log(this);
+    return <div>This is Analysis Page</div>;
   }
 }
 

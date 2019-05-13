@@ -46,7 +46,13 @@ export default [
         path: '/account/settings',
         name: 'settings',
         component: './Account/Settings/Info',
-        hideInMenu: true
+        hideInMenu: true,
+      },
+      {
+        path: '/note',
+        name: 'noteModel',
+        component: './Note',
+        icon: 'dashboard',
       },
       {
         component: '404',
