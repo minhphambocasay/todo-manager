@@ -63,7 +63,7 @@ export default {
           type: 'DELETE_NOTE_SUCCESS',
           payload: {},
         });
-        // yield put({ type: 'GET_ALL_NOTES' });
+        yield put({ type: 'GET_ALL_NOTES' });
       } catch (error) {
         yield put({
           type: 'DELETE_NOTE_ERROR',
