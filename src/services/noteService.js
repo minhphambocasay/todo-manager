@@ -28,6 +28,8 @@ export function updateNote(note) {
     data.is_done = note.is_done;
   } else if (note && note.hasOwnProperty('is_doing')) {
     data.is_doing = note.is_doing;
+  } else if (note && note.hasOwnProperty('content')) {
+    data.content = note.content;
   }
   return axios.post(`${domain}post/update`, data);
 }
