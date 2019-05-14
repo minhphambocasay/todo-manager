@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import request from '@/utils/request';
 import axios from 'axios';
 
@@ -5,7 +6,8 @@ export default async function getNotes() {
   return request(`/api/notes`);
 }
 
-const domain = 'https://project-2018-backend.herokuapp.com/';
+let domain = 'https://project-2018-backend.herokuapp.com/';
+domain = 'http://localhost:8000/';
 
 export function getAllNotes() {
   return request.get(`${domain}posts/all`);
@@ -21,8 +23,12 @@ export function createNote(note) {
 export function updateNote(note) {
   const data = {
     id: note.id,
-    is_done: note.is_done,
   };
+  if (note && note.hasOwnProperty('is_done')) {
+    data.is_done = note.is_done;
+  } else if (note && note.hasOwnProperty('is_doing')) {
+    data.is_doing = note.is_doing;
+  }
   return axios.post(`${domain}post/update`, data);
 }
 

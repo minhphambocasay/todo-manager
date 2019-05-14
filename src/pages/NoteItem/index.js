@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { connect } from 'dva';
@@ -11,16 +12,25 @@ const NoteItem = ({ handleDeleteNote, dispatch, handleUpdateNote, item }) => {
     });
   };
 
-  handleUpdateNote = data => {
+  handleUpdateNote = (data, index) => {
     // eslint-disable-line no-param-reassign
     // eslint-disable-next-line no-prototype-builtins
-    if (data && data.hasOwnProperty('is_done')) {
-      // eslint-disable-next-line no-param-reassign
-      data.is_done = !data.is_done;
+    const updateObj = {};
+    updateObj.id = data.id;
+    if (index === 'is_done') {
+      if (data && data.hasOwnProperty('is_done')) {
+        // eslint-disable-next-line no-param-reassign
+        updateObj.is_done = !data.is_done;
+      }
+    } else if (index === 'is_doing') {
+      if (data && data.hasOwnProperty('is_doing')) {
+        // eslint-disable-next-line no-param-reassign
+        updateObj.is_doing = !data.is_doing;
+      }
     }
     dispatch({
       type: 'noteModel/UPDATE_NOTE',
-      payload: data,
+      payload: updateObj,
     });
   };
   // const [item, setItem] = useState(item); // eslint-disable-line no-param-reassign
@@ -33,10 +43,19 @@ const NoteItem = ({ handleDeleteNote, dispatch, handleUpdateNote, item }) => {
 
   return (
     <div key={item.id} className={`${item.is_done ? 'strikethrough' : ''} noteItem`}>
-      <input type="checkbox" checked={item.is_done} onChange={() => handleUpdateNote(item)} />
+      <input
+        type="checkbox"
+        checked={item.is_done}
+        onChange={() => handleUpdateNote(item, 'is_done')}
+      />
       <div className="content">{item.content}</div>
       {/* <div onClick={() => handleUpdateNote(item)}>edit</div> */}
       <div onClick={() => handleDeleteNote(item)}>delete</div>
+      <input
+        type="checkbox"
+        checked={item.is_doing}
+        onChange={() => handleUpdateNote(item, 'is_doing')}
+      />
     </div>
   );
 };
