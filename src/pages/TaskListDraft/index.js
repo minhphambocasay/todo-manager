@@ -75,7 +75,9 @@ const TaskListDraft = ({ dispatch, user, loadingPostComment }) => {
   );
 };
 
-export default connect(({ user, loading }) => ({
-  user: user.currentUser,
-  loadingPostComment: loading.effects['taskListDraftModel/postComment'],
-}))(TaskListDraft);
+export default React.memo(
+  connect(({ user, loading }) => ({
+    user: user.currentUser,
+    loadingPostComment: loading.effects['taskListDraftModel/postComment'],
+  }))(TaskListDraft)
+);

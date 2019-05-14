@@ -2,13 +2,34 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { connect } from 'dva';
 import { List, Avatar, Icon, Button, Skeleton } from 'antd';
 
-const CommentList = ({ dispatch, taskId, loading, comments, initLoading }) => {
+const CommentList = ({
+  dispatch,
+  taskId,
+  comments,
+  initLoading,
+  primaryColor,
+  loadingLikeComment,
+  loadingMoreComment,
+}) => {
   const [list, setList] = useState([]);
+  const [prevLoadingLikeComment, setPrevLoadingLikeComment] = useState(false);
+  const [prevLoadingMoreComment, setPrevLoadingMoreComment] = useState(false);
 
-  if (
-    (comments.length !== list.length && !loading) ||
-    (comments.length === list.length && list[list.length - 1] && list[list.length - 1].loading)
-  ) {
+  if (prevLoadingLikeComment !== loadingLikeComment) {
+    setPrevLoadingLikeComment(loadingLikeComment);
+    if (!loadingLikeComment) {
+      setList(comments);
+    }
+  }
+
+  if (prevLoadingMoreComment !== loadingMoreComment) {
+    setPrevLoadingMoreComment(loadingMoreComment);
+    if (!loadingMoreComment) {
+      setList(comments);
+    }
+  }
+
+  if (comments.length !== list.length && !loadingMoreComment) {
     setList(comments);
   }
 
@@ -31,17 +52,35 @@ const CommentList = ({ dispatch, taskId, loading, comments, initLoading }) => {
     });
   }, [list]);
 
-  const LikeIcon = useCallback(({ type, text }) => {
+  const onUpdateLike = useCallback(commentId => {
+    dispatch({
+      type: 'taskListDraftModel/updateLikeNumber',
+      payload: {
+        commentId,
+      },
+    });
+  });
+
+  const LikeIcon = useCallback(({ isLiked, type, text, commentId }) => {
+    const color = isLiked ? primaryColor : '#00000073';
     return (
       <span>
-        <Icon type={type} style={{ marginRight: 8 }} />
-        {text}
+        <Icon
+          onClick={() => {
+            onUpdateLike(commentId);
+          }}
+          type={type}
+          style={{ marginRight: 8 }}
+          theme="twoTone"
+          twoToneColor={color}
+        />
+        <span style={{ 'pointer-events': 'none' }}>{text}</span>
       </span>
     );
   }, []);
 
   const loadMore =
-    !initLoading && !loading ? (
+    !initLoading && !loadingMoreComment ? (
       <div
         style={{
           textAlign: 'center',
@@ -63,7 +102,17 @@ const CommentList = ({ dispatch, taskId, loading, comments, initLoading }) => {
         loading={initLoading}
         dataSource={list}
         renderItem={item => (
-          <List.Item key={item.id} actions={[<LikeIcon type="like-o" text={item.likedNumber} />]}>
+          <List.Item
+            key={item.id}
+            actions={[
+              <LikeIcon
+                commentId={item.id}
+                isLiked={item.isLikedByMe}
+                type="like-o"
+                text={item.likedNumber}
+              />,
+            ]}
+          >
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
                 avatar={<Avatar src={item.author.avatar} />}
@@ -79,8 +128,12 @@ const CommentList = ({ dispatch, taskId, loading, comments, initLoading }) => {
   );
 };
 
-export default connect(({ taskListDraftModel, loading }) => ({
-  comments: taskListDraftModel.comments,
-  loading: loading.models.taskListDraftModel,
-  initLoading: taskListDraftModel.initLoading,
-}))(CommentList);
+export default React.memo(
+  connect(({ taskListDraftModel, loading, setting }) => ({
+    comments: taskListDraftModel.comments,
+    initLoading: taskListDraftModel.initLoading,
+    primaryColor: setting.primaryColor,
+    loadingLikeComment: loading.effects['taskListDraftModel/updateLikeNumber'],
+    loadingMoreComment: loading.effects['taskListDraftModel/getComments'],
+  }))(CommentList)
+);

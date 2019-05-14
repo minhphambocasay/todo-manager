@@ -17,3 +17,12 @@ export async function postComment(params) {
     },
   });
 }
+
+export async function updateLikeNumber(params) {
+  return request('/api/comments', {
+    method: 'PUT',
+    data: {
+      ...params,
+    },
+  });
+}

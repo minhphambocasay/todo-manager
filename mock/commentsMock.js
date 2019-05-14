@@ -11,7 +11,7 @@ const proxy = {
         },
         content: 'This is the first comment',
         likedNumber: 5,
-        isLikedByMe: false,
+        isLikedByMe: true,
       },
       {
         id: 1,
@@ -21,7 +21,7 @@ const proxy = {
         },
         content: 'This is the second comment',
         likedNumber: 1,
-        isLikedByMe: true,
+        isLikedByMe: false,
       },
       {
         id: 2,
@@ -39,6 +39,10 @@ const proxy = {
     const { comment, user } = req.body;
     res.send({ status: 'ok', comment, user });
   },
+  'PUT /api/comments': (req, res) => {
+    const { commentId } = req.body;
+    res.send({ status: 'ok', commentId });
+  },
 };
 
-export default delay(proxy, 2000);
+export default delay(proxy, 1000);
