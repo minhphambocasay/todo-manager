@@ -54,6 +54,25 @@ export default [
         component: './Note',
         icon: 'dashboard',
       },
+      // members
+      {
+        path: '/members',
+        name: 'Member',
+        component: './Member',
+        icon: 'user',
+      },
+      {
+        path: '/members/detail/:id',
+        name: 'Member Detail',
+        component: './Member/Detail',
+        hideInMenu: true,
+      },
+      {
+        path: '/members/edit/:id',
+        name: 'Member Edit',
+        component: './Member/Edit',
+        hideInMenu: true,
+      },
       {
         component: '404',
       },

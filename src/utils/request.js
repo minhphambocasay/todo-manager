@@ -61,7 +61,7 @@ const errorHandler = error => {
 };
 
 /**
- * Default parameters when configuring request 
+ * Default parameters when configuring request
  */
 const request = extend({
   errorHandler, // Default error handling

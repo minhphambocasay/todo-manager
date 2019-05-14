@@ -89,9 +89,7 @@ class BasicLayout extends React.Component {
 
   renderSettingDrawer = () => {
     // Do not render SettingDrawer in production
-    if (
-      process.env.NODE_ENV === 'production' && DEV_MODE !== 'site'
-    ) {
+    if (process.env.NODE_ENV === 'production' && DEV_MODE !== 'site') {
       return null;
     }
     return <SettingDrawer />;

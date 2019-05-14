@@ -8,11 +8,7 @@ import styles from './index.less';
 
 export default class GlobalHeaderRight extends PureComponent {
   render() {
-    const {
-      currentUser,
-      onMenuClick,
-      theme,
-    } = this.props;
+    const { currentUser, onMenuClick, theme } = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="userinfo">
