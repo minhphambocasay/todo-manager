@@ -86,12 +86,38 @@ input {
 }
 
 .note .noteInput input {
+  // padding-bottom: 0.6em;
+  width: 50%;
   margin-bottom: 1.6em;
-  padding-bottom: 0.6em;
   border: none;
-  border-bottom: 1px solid #f9a02c;
 }
-.note .noteItems input.content {
+.note input.content {
   background: #f0f2f5;
   border: none;
+}
+
+.note .deleteIcon,
+.note .infoIcon {
+  display: none;
+}
+
+.note .infoIcon {
+  margin-right: 10px;
+}
+.note .ant-table-row:hover .deleteIcon,
+.note .ant-table-row:hover .infoIcon {
+  display: block;
+}
+
+.note input.ant-input.content {
+  padding: 0;
+}
+
+.note .ant-table-row:hover .deleteIcon i,
+.note .ant-table-row:hover .infoIcon i {
+  cursor: pointer;
+}
+
+.note .actionIcons {
+  display: flex;
 }
