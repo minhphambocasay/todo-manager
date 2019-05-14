@@ -1,12 +1,12 @@
 /* eslint-disable no-prototype-builtins */
 import request from '@/utils/request';
-import axios from 'axios';
+// import axios from 'axios';
 
 export default async function getNotes() {
   return request(`/api/notes`);
 }
 
-let domain = 'https://project-2018-backend.herokuapp.com/';
+const domain = 'https://project-2018-backend.herokuapp.com/';
 // domain = 'http://localhost:8000/';
 
 export function getAllNotes() {
@@ -17,7 +17,7 @@ export function createNote(note) {
   const data = {
     content: note,
   };
-  return axios.post(`${domain}post/create`, data);
+  return request.post(`${domain}post/create`, { data });
 }
 
 export function updateNote(note) {
@@ -31,12 +31,12 @@ export function updateNote(note) {
   } else if (note && note.hasOwnProperty('content')) {
     data.content = note.content;
   }
-  return axios.post(`${domain}post/update`, data);
+  return request.post(`${domain}post/update`, { data });
 }
 
 export function deleteNote(id) {
   const data = {
     id,
   };
-  return axios.post(`${domain}post/delete`, data);
+  return request.post(`${domain}post/delete`, { data });
 }
