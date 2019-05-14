@@ -35,6 +35,10 @@ const proxy = {
       },
     ],
   },
+  'POST /api/comments': (req, res) => {
+    const { comment, user } = req.body;
+    res.send({ status: 'ok', comment, user });
+  },
 };
 
 export default delay(proxy, 2000);
