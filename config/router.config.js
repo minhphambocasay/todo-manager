@@ -49,17 +49,17 @@ export default [
         hideInMenu: true,
       },
       {
-        path: '/note',
-        name: 'noteModel',
+        path: '/notes',
+        name: 'Note',
         component: './Note',
-        icon: 'dashboard',
+        icon: 'ordered-list',
       },
       // members
       {
         path: '/members',
         name: 'Member',
         component: './Member',
-        icon: 'user',
+        icon: 'team',
       },
       {
         path: '/members/detail/:id',

@@ -113,6 +113,9 @@ const memberMock = {
       'https://cdn.itviec.com/employers/bocasay/logo/social/4QrC4cCjzmMTfyrw4xhEEHT3/bocasay-logo.png',
     group: 'Bocasay Hanoi',
   },
+  'PUT /api/members/1': (req, res) => {
+    res.send({ status: 'ok' });
+  },
 };
 
 export default delay(memberMock, 1000);

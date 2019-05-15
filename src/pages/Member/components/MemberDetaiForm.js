@@ -27,8 +27,8 @@ const MemberDetail = ({ form, memberDetail, loading, submiting, formType, action
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        console.log('values', values);
-        actionUpdate(values);
+        const params = { ...memberDetail, values };
+        actionUpdate(params);
       }
     });
   };

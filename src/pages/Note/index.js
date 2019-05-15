@@ -145,7 +145,7 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
         return (
           <div className="actionIcons">
             <div onClick={() => showComments(data)} className="infoIcon">
-              <Icon type="info" />
+              <Icon type="message" />
             </div>
             <div onClick={() => handleDeleteNote(data)} className="deleteIcon">
               <Icon type="delete" style={{ color: 'red' }} />

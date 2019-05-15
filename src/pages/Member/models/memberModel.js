@@ -1,4 +1,5 @@
-import { getMembers, getMemberDetail } from '@/services/memberService';
+import { getMembers, getMemberDetail, editMemberDetail } from '@/services/memberService';
+import { notification } from 'antd';
 import pathToRegexp from 'path-to-regexp';
 
 export default {
@@ -49,10 +50,14 @@ export default {
     },
     *updateMemberDetail({ payload }, { call, put }) {
       try {
-        const response = yield call(getMemberDetail);
+        const response = yield call(editMemberDetail, payload);
         yield put({
           type: 'updatedMemberDetail',
           payload: { updatedMember: payload, response },
+        });
+        notification.success({
+          message: 'Update Member',
+          description: 'This member is updated successfully',
         });
       } catch (error) {
         console.log('Error', error);
