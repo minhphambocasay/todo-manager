@@ -9,18 +9,18 @@ export default async function getNotes() {
 const domain = 'https://project-2018-backend.herokuapp.com/';
 // domain = 'http://localhost:8000/';
 
-export function getAllNotes() {
+export function getAllNotesRequest() {
   return request.get(`${domain}posts/all`);
 }
 
-export function createNote(note) {
+export function createNoteRequest(note) {
   const data = {
     content: note,
   };
   return request.post(`${domain}post/create`, { data });
 }
 
-export function updateNote(note) {
+export function updateNoteRequest(note) {
   const data = {
     id: note.id,
   };
@@ -34,7 +34,7 @@ export function updateNote(note) {
   return request.post(`${domain}post/update`, { data });
 }
 
-export function deleteNote(id) {
+export function deleteNoteRequest(id) {
   const data = {
     id,
   };

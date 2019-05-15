@@ -21,13 +21,13 @@ const Note = ({
   const [inputValue, setInputValue] = useState('');
   useEffect(() => {
     dispatch({
-      type: 'noteModel/GET_ALL_NOTES',
+      type: 'noteModel/getAllNotes',
     });
   }, []);
   handleCreateNote = data => {
     // eslint-disable-line no-param-reassign
     dispatch({
-      type: 'noteModel/CREATE_NOTE',
+      type: 'noteModel/createNote',
       payload: data,
     });
   };
@@ -43,7 +43,7 @@ const Note = ({
 
   handleDeleteNote = data => {
     dispatch({
-      type: 'noteModel/DELETE_NOTE',
+      type: 'noteModel/deleteNote',
       payload: data,
     });
   };
@@ -137,7 +137,7 @@ const Note = ({
       updateObj.content = value;
     }
     dispatch({
-      type: 'noteModel/UPDATE_NOTE',
+      type: 'noteModel/updateNote',
       payload: updateObj,
     });
   };

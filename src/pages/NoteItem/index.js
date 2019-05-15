@@ -7,7 +7,7 @@ const NoteItem = ({ handleDeleteNote, dispatch, handleUpdateNote, item }) => {
   // eslint-disable-next-line no-param-reassign
   handleDeleteNote = data => {
     dispatch({
-      type: 'noteModel/DELETE_NOTE',
+      type: 'noteModel/deleteNote',
       payload: data,
     });
   };
@@ -31,7 +31,7 @@ const NoteItem = ({ handleDeleteNote, dispatch, handleUpdateNote, item }) => {
       updateObj.content = e.target.value;
     }
     dispatch({
-      type: 'noteModel/UPDATE_NOTE',
+      type: 'noteModel/updateNote',
       payload: updateObj,
     });
   };

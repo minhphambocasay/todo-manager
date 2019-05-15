@@ -1,4 +1,9 @@
-import { getAllNotes, createNote, deleteNote, updateNote } from '@/services/noteService';
+import {
+  getAllNotesRequest,
+  createNoteRequest,
+  deleteNoteRequest,
+  updateNoteRequest,
+} from '@/services/noteService';
 
 export default {
   namespace: 'noteModel',
@@ -7,94 +12,132 @@ export default {
     udpatedNote: null,
   },
   effects: {
-    *GET_ALL_NOTES(_, { put }) {
+    *getAllNotes(_, { put }) {
       try {
-        const response = yield getAllNotes();
+        const response = yield getAllNotesRequest();
         let data = [];
         if (response && response.posts) {
           data = response.posts;
         }
         yield put({
-          type: 'GET_ALL_NOTES_SUCCESS',
+          type: 'getAllNotesSuccess',
           payload: data,
         });
       } catch (error) {
         yield put({
-          type: 'GET_ALL_NOTES_ERROR',
+          type: 'getAllNotesError',
           payload: error,
         });
       }
     },
-    *CREATE_NOTE({ payload }, { put }) {
+    *createNote({ payload }, { put }) {
       try {
-        yield createNote(payload);
+        yield createNoteRequest(payload);
         yield put({
-          type: 'CREATE_NOTE_SUCCESS',
+          type: 'createNoteSuccess',
           payload: {},
         });
-        yield put({ type: 'GET_ALL_NOTES' });
+        yield put({ type: 'getAllNotes' });
       } catch (error) {
         yield put({
-          type: 'CREATE_NOTE_ERROR',
+          type: 'createNoteError',
           payload: {},
         });
       }
     },
-    *UPDATE_NOTE({ payload }, { put }) {
+    *updateNote({ payload }, { put }) {
       try {
-        const response = yield updateNote(payload);
+        const response = yield updateNoteRequest(payload);
         const updateNoteObj = response.data.post;
         yield put({
-          type: 'UPDATE_NOTE_SUCCESS',
+          type: 'updateNoteSuccess',
           payload: updateNoteObj,
         });
-        yield put({ type: 'GET_ALL_NOTES' });
       } catch (error) {
         yield put({
-          type: 'UPDATE_NOTE_ERROR',
+          type: 'updateNoteError',
           payload: {},
         });
       }
     },
-    *DELETE_NOTE({ payload }, { put }) {
+    *deleteNote({ payload }, { put }) {
       try {
-        yield deleteNote(payload.id);
+        yield deleteNoteRequest(payload.id);
         yield put({
-          type: 'DELETE_NOTE_SUCCESS',
+          type: 'deleteNoteSuccess',
           payload: {},
         });
-        yield put({ type: 'GET_ALL_NOTES' });
+        yield put({ type: 'getAllNotes' });
       } catch (error) {
         yield put({
-          type: 'DELETE_NOTE_ERROR',
+          type: 'deleteNoteError',
           payload: {},
         });
       }
     },
   },
   reducers: {
-    GET_ALL_NOTES_SUCCESS(state, { payload }) {
-      console.log(payload);
+    getAllNotes(state) {
+      return {
+        ...state,
+      };
+    },
+    getAllNotesSuccess(state, { payload }) {
       return {
         ...state,
         notes: payload.sort((a, b) => a.id - b.id),
       };
     },
-    GET_ALL_NOTES_ERROR(state, { payload }) {
+    getAllNotesError(state, { payload }) {
       return {
         ...state,
         notes: payload.error,
       };
     },
-    DELETE_NOTE_SUCCESS(state) {
+    createNote(state) {
       return {
         ...state,
       };
     },
-    UPDATE_NOTE_SUCCESS(state, { payload }) {
+    createNoteSuccess(state) {
+      return {
+        ...state,
+      };
+    },
+    createNoteError(state) {
+      return {
+        ...state,
+      };
+    },
+    updateNote(state) {
+      return {
+        ...state,
+      };
+    },
+    updateNoteSuccess(state, { payload }) {
       return {
         ...state,
         updatedNote: payload,
+      };
+    },
+    updateNoteError(state) {
+      return {
+        ...state,
+      };
+    },
+    deleteNote(state) {
+      return {
+        ...state,
+      };
+    },
+    deleteNoteSuccess(state) {
+      return {
+        ...state,
+      };
+    },
+    deleteNoteError(state) {
+      return {
+        ...state,
       };
     },
   },
