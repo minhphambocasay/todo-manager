@@ -1,18 +1,18 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-param-reassign */
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'dva';
 
 const NoteItem = ({ handleDeleteNote, dispatch, handleUpdateNote, item }) => {
   // eslint-disable-next-line no-param-reassign
-  handleDeleteNote = data => {
+  handleDeleteNote = useCallback(data => {
     dispatch({
       type: 'noteModel/deleteNote',
       payload: data,
     });
-  };
+  }, []);
 
-  handleUpdateNote = (data, index, e) => {
+  handleUpdateNote = useCallback((data, index, e) => {
     // eslint-disable-line no-param-reassign
     // eslint-disable-next-line no-prototype-builtins
     const updateObj = {};
@@ -34,14 +34,7 @@ const NoteItem = ({ handleDeleteNote, dispatch, handleUpdateNote, item }) => {
       type: 'noteModel/updateNote',
       payload: updateObj,
     });
-  };
-  // const [item, setItem] = useState(item); // eslint-disable-line no-param-reassign
-  // useEffect(() => {
-  //   console.log(updatedNote, item)
-  //   if (updatedNote && item && (updatedNote.id === item.id)) {
-  //     setItem(updatedNote)
-  //   }
-  // }, [item])
+  }, []);
 
   return (
     <div key={item.id} className={`${item.is_done ? 'strikethrough' : ''} noteItem`}>
@@ -68,10 +61,6 @@ const NoteItem = ({ handleDeleteNote, dispatch, handleUpdateNote, item }) => {
   );
 };
 
-export default connect(models => {
-  console.log(models);
-  // if (models.noteModel.udpatedNote && models.noteModel.udpatedNote.id === ite) {
-  // return { item: models.noteModel.udpatedNote }
-  // }
+export default connect(() => {
   return {};
 })(NoteItem);

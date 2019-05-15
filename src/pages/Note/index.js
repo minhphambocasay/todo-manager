@@ -7,21 +7,8 @@ import { Table, Checkbox, Input, Empty, Icon, Button, Modal, Row, Col, Spin } fr
 import { connect } from 'dva';
 import CommentList from '@/components/CommentList';
 import styles from './index.less';
-// import NoteItem from '../NoteItem';
-// import NoteItem from ./
-const Note = ({
-  notes,
-  dispatch,
-  handleOnKeyPress,
-  handleCreateNote,
-  handleUpdateNote,
-  handleDeleteNote,
-  handleOnPressEnter,
-  showComments,
-  loadingPostComment,
-  user,
-}) => {
-  // console.log(dispatch)
+
+const Note = ({ notes, dispatch, loadingPostComment, user }) => {
   const [inputValue, setInputValue] = useState('');
   const [visible, setVisible] = useState(false);
   const [commentText, setCommentText] = useState('');
@@ -49,34 +36,59 @@ const Note = ({
       type: 'noteModel/getAllNotes',
     });
   }, []);
-  handleCreateNote = data => {
+
+  const handleCreateNote = useCallback(data => {
     // eslint-disable-line no-param-reassign
     dispatch({
       type: 'noteModel/createNote',
       payload: data,
     });
-  };
+  }, []);
 
-  handleOnPressEnter = e => {
+  const handleOnPressEnter = useCallback(e => {
     handleCreateNote(e.target.value);
     setInputValue('');
-  };
+  }, []);
 
-  handleOnKeyPress = e => {
+  const handleOnKeyPress = useCallback(e => {
     setInputValue(e.target.value);
-  };
+  }, []);
 
-  handleDeleteNote = data => {
+  const handleDeleteNote = useCallback(data => {
     dispatch({
       type: 'noteModel/deleteNote',
       payload: data,
     });
-  };
+  }, []);
 
-  showComments = () => {
+  const handleUpdateNote = useCallback((data, index, value) => {
+    // eslint-disable-line no-param-reassign
+    // eslint-disable-next-line no-prototype-builtins
+    const updateObj = {};
+    updateObj.id = data.id;
+    if (index === 'is_done') {
+      if (data && data.hasOwnProperty('is_done')) {
+        // eslint-disable-next-line no-param-reassign
+        updateObj.is_done = !data.is_done;
+      }
+    } else if (index === 'is_doing') {
+      if (data && data.hasOwnProperty('is_doing')) {
+        // eslint-disable-next-line no-param-reassign
+        updateObj.is_doing = !data.is_doing;
+      }
+    } else if (index === 'content') {
+      updateObj.content = value;
+    }
+    dispatch({
+      type: 'noteModel/updateNote',
+      payload: updateObj,
+    });
+  }, []);
+
+  const showComments = useCallback(() => {
     console.log('showComemtn');
     setVisible(!visible);
-  };
+  }, [visible]);
 
   const columns = [
     {
@@ -143,30 +155,6 @@ const Note = ({
       },
     },
   ];
-
-  handleUpdateNote = (data, index, value) => {
-    // eslint-disable-line no-param-reassign
-    // eslint-disable-next-line no-prototype-builtins
-    const updateObj = {};
-    updateObj.id = data.id;
-    if (index === 'is_done') {
-      if (data && data.hasOwnProperty('is_done')) {
-        // eslint-disable-next-line no-param-reassign
-        updateObj.is_done = !data.is_done;
-      }
-    } else if (index === 'is_doing') {
-      if (data && data.hasOwnProperty('is_doing')) {
-        // eslint-disable-next-line no-param-reassign
-        updateObj.is_doing = !data.is_doing;
-      }
-    } else if (index === 'content') {
-      updateObj.content = value;
-    }
-    dispatch({
-      type: 'noteModel/updateNote',
-      payload: updateObj,
-    });
-  };
 
   return (
     <div className="note">
