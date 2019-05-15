@@ -50,3 +50,74 @@ ol {
     }
   }
 }
+
+input:focus {
+  outline-width: 0;
+}
+input {
+  font-size: 14px;
+}
+
+.note .noteInput {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.note .noteItem {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin-bottom: 1.6em;
+  padding-bottom: 0.6em;
+  border-bottom: solid #f9a02c 1px;
+}
+
+.note .noteItems,
+.note .noNote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.note .noteItem.strikethrough .content {
+  text-decoration: line-through;
+}
+
+.note .noteInput input {
+  // padding-bottom: 0.6em;
+  width: 50%;
+  margin-bottom: 1.6em;
+  border: none;
+}
+.note input.content {
+  background: #f0f2f5;
+  border: none;
+}
+
+.note .deleteIcon,
+.note .infoIcon {
+  display: none;
+}
+
+.note .infoIcon {
+  margin-right: 10px;
+}
+.note .ant-table-row:hover .deleteIcon,
+.note .ant-table-row:hover .infoIcon {
+  display: block;
+}
+
+.note input.ant-input.content {
+  padding: 0;
+}
+
+.note .ant-table-row:hover .deleteIcon i,
+.note .ant-table-row:hover .infoIcon i {
+  cursor: pointer;
+}
+
+.note .actionIcons {
+  display: flex;
+}
