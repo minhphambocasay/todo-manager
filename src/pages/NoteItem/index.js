@@ -61,6 +61,4 @@ const NoteItem = ({ handleDeleteNote, dispatch, handleUpdateNote, item }) => {
   );
 };
 
-export default connect(() => {
-  return {};
-})(NoteItem);
+export default connect(() => {})(NoteItem);
