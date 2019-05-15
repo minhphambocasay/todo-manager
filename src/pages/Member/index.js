@@ -20,7 +20,6 @@ const Members = ({ members, loading, dispatch }) => {
   });
 
   const viewTaskList = useCallback(() => {
-    console.log('viewTaskList');
     router.push('/notes');
   });
 

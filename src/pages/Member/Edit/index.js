@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'dva';
 import { Card } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import MemberDetailForm from '../components/MemberDetaiForm';
 
 const MemderEdit = ({ fetching, member, updating, dispatch }) => {
-  const updateMember = requestParams => {
+  const updateMember = useCallback(requestParams => {
     dispatch({
       type: 'memberModel/updateMemberDetail',
       payload: requestParams,
     });
-  };
+  });
 
   return (
     <PageHeaderWrapper>
