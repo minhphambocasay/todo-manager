@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import CommentList from '@/components/CommentList';
 import SearchBox from '@/components/SearchBox';
 import styles from './index.less';
-
+import { getCurrentUsers } from '../../socket';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Note = ({ notes, dispatch, loadingPostComment, user }) => {
@@ -36,6 +36,7 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
   }
 
   useEffect(() => {
+    getCurrentUsers();
     dispatch({
       type: 'noteModel/getAllNotes',
     });
