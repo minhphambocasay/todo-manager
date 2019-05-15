@@ -5,7 +5,6 @@ import request from '@/utils/request';
 export default async function getNotes() {
   return request(`/api/notes`);
 }
-
 const domain = 'https://project-2018-backend.herokuapp.com/';
 // domain = 'http://localhost:8001/';
 
@@ -30,6 +29,10 @@ export function updateNoteRequest(note) {
     data.is_doing = note.is_doing;
   } else if (note && note.hasOwnProperty('content')) {
     data.content = note.content;
+  } else if (note && note.hasOwnProperty('assignee_id')) {
+    data.assignee_id = note.assignee_id;
+  } else if (note && note.hasOwnProperty('progress_percent')) {
+    data.progress_percent = note.progress_percent;
   }
   return request.post(`${domain}post/update`, { data });
 }

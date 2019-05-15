@@ -3,10 +3,14 @@
 /* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable no-param-reassign */
 import React, { useEffect, useState, useCallback } from 'react';
-import { Table, Checkbox, Input, Empty, Icon, Button, Modal, Row, Col, Spin } from 'antd';
+import { Table, Checkbox, Input, Empty, Icon, Button, Modal, Row, Col, Spin, Slider } from 'antd';
 import { connect } from 'dva';
+import { ToastContainer, toast } from 'react-toastify';
 import CommentList from '@/components/CommentList';
+import SearchBox from '@/components/SearchBox';
 import styles from './index.less';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const Note = ({ notes, dispatch, loadingPostComment, user }) => {
   const [inputValue, setInputValue] = useState('');
@@ -78,6 +82,8 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
       }
     } else if (index === 'content') {
       updateObj.content = value;
+    } else if (index === 'progress_percent') {
+      updateObj.progress_percent = value;
     }
     dispatch({
       type: 'noteModel/updateNote',
@@ -86,9 +92,14 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
   }, []);
 
   const showComments = useCallback(() => {
-    console.log('showComemtn');
     setVisible(!visible);
   }, [visible]);
+
+  const searchBoxCb = useCallback(() => {}, []);
+
+  const showNoti = useCallback(() => {
+    toast('Wow so easy !');
+  }, []);
 
   const columns = [
     {
@@ -122,17 +133,39 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
         );
       },
     },
-
+    {
+      title: 'Assignee',
+      dataIndex: null,
+      render: data => {
+        return (
+          <div>
+            <SearchBox dataObj={data} cb={searchBoxCb} />
+          </div>
+        );
+      },
+    },
     {
       title: 'In Progress',
       dataIndex: null,
       width: 150,
       render: data => {
+        let timeoutSlider;
         return (
-          <Checkbox
-            checked={data.is_doing}
+          // <Checkbox
+          //   checked={data.is_doing}
+          //   disabled={data.is_done}
+          //   onChange={() => handleUpdateNote(data, 'is_doing')}
+          // />
+          <Slider
             disabled={data.is_done}
-            onChange={() => handleUpdateNote(data, 'is_doing')}
+            defaultValue={data.progress_percent || 0}
+            tooltipVisible
+            onChange={e => {
+              if (timeoutSlider) clearTimeout(timeoutSlider);
+              timeoutSlider = setTimeout(() => {
+                handleUpdateNote(data, 'progress_percent', e);
+              }, 300);
+            }}
           />
         );
       },
@@ -149,6 +182,9 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
             </div>
             <div onClick={() => handleDeleteNote(data)} className="deleteIcon">
               <Icon type="delete" style={{ color: 'red' }} />
+            </div>
+            <div onClick={() => showNoti()} className="deleteIcon">
+              <Icon type="notification" />
             </div>
           </div>
         );
@@ -204,6 +240,7 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
       >
         <CommentList taskId={1} />
       </Modal>
+      <ToastContainer />
     </div>
   );
 };
