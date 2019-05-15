@@ -2,9 +2,11 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable no-param-reassign */
-import React, { useEffect, useState } from 'react';
-import { Table, Checkbox, Input, Empty, Icon } from 'antd';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Table, Checkbox, Input, Empty, Icon, Button, Modal, Row, Col, Spin } from 'antd';
 import { connect } from 'dva';
+import CommentList from '@/components/CommentList';
+import styles from './index.less';
 // import NoteItem from '../NoteItem';
 // import NoteItem from ./
 const Note = ({
@@ -16,9 +18,32 @@ const Note = ({
   handleDeleteNote,
   handleOnPressEnter,
   showComments,
+  loadingPostComment,
+  user,
 }) => {
   // console.log(dispatch)
   const [inputValue, setInputValue] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [commentText, setCommentText] = useState('');
+  const [prevLoadingPostComment, setPrevLoadingPostComment] = useState(false);
+
+  const onPostComment = useCallback(() => {
+    dispatch({
+      type: 'taskListDraftModel/postComment',
+      payload: {
+        comment: commentText,
+        user,
+      },
+    });
+  }, [commentText]);
+
+  if (prevLoadingPostComment !== loadingPostComment) {
+    setPrevLoadingPostComment(loadingPostComment);
+    if (!loadingPostComment) {
+      setCommentText('');
+    }
+  }
+
   useEffect(() => {
     dispatch({
       type: 'noteModel/getAllNotes',
@@ -50,6 +75,7 @@ const Note = ({
 
   showComments = () => {
     console.log('showComemtn');
+    setVisible(!visible);
   };
 
   const columns = [
@@ -153,14 +179,52 @@ const Note = ({
         />
       </div>
       {notes && notes.length ? <Table columns={columns} dataSource={notes} /> : <Empty />}
+
       <div />
+      <Modal
+        title="Comments"
+        visible={visible}
+        onOk={() => {
+          setVisible(!visible);
+        }}
+        onCancel={() => {
+          setVisible(!visible);
+        }}
+        loading
+        bodyStyle={{ height: '60vh', overflowY: 'auto' }}
+        footer={
+          <Row>
+            <Spin spinning={!!loadingPostComment}>
+              <Col xs={24} justify="center">
+                <div className={styles.commentEditor}>
+                  <textarea
+                    value={commentText}
+                    onChange={evt => {
+                      setCommentText(evt.target.value);
+                    }}
+                  />
+                </div>
+              </Col>
+              <Col xs={24} className={styles.submitButton}>
+                <Button key="submit" type="primary" onClick={onPostComment}>
+                  Comment
+                </Button>
+              </Col>
+            </Spin>
+          </Row>
+        }
+      >
+        <CommentList taskId={1} />
+      </Modal>
     </div>
   );
 };
 
-export default connect(({ noteModel, loading }) => {
+export default connect(({ noteModel, loading, user }) => {
   return {
     notes: noteModel.notes,
     loading: loading.models.noteModel,
+    user: user.currentUser,
+    loadingPostComment: loading.effects['taskListDraftModel/postComment'],
   };
 })(Note);
