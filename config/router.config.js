@@ -55,6 +55,12 @@ export default [
         icon: 'dashboard',
       },
       {
+        path: '/TaskListDraft',
+        name: 'taskListDraft',
+        component: './TaskListDraft',
+        hideInMenu: true,
+      },
+      {
         component: '404',
       },
     ],
