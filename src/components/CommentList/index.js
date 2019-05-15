@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { connect } from 'dva';
 import { List, Avatar, Icon, Button, Skeleton } from 'antd';
+import useCheckChanged from '@/hooks/useCheckChanged';
 
 const CommentList = ({
   dispatch,
@@ -12,22 +13,13 @@ const CommentList = ({
   loadingMoreComment,
 }) => {
   const [list, setList] = useState([]);
-  const [prevLoadingLikeComment, setPrevLoadingLikeComment] = useState(false);
-  const [prevLoadingMoreComment, setPrevLoadingMoreComment] = useState(false);
 
-  if (prevLoadingLikeComment !== loadingLikeComment) {
-    setPrevLoadingLikeComment(loadingLikeComment);
-    if (!loadingLikeComment) {
-      setList(comments);
-    }
-  }
-
-  if (prevLoadingMoreComment !== loadingMoreComment) {
-    setPrevLoadingMoreComment(loadingMoreComment);
-    if (!loadingMoreComment) {
-      setList(comments);
-    }
-  }
+  useCheckChanged(false, loadingLikeComment, () => {
+    setList(comments);
+  });
+  useCheckChanged(false, loadingMoreComment, () => {
+    setList(comments);
+  });
 
   if (comments.length !== list.length && !loadingMoreComment) {
     setList(comments);
