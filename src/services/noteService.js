@@ -7,7 +7,7 @@ export default async function getNotes() {
 }
 
 const domain = 'https://project-2018-backend.herokuapp.com/';
-// domain = 'http://localhost:8000/';
+// domain = 'http://localhost:8001/';
 
 export function getAllNotesRequest() {
   return request.get(`${domain}posts/all`);

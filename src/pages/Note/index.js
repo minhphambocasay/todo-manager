@@ -105,11 +105,11 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
       title: 'Content',
       dataIndex: null,
       render: data => {
+        let timeout;
         return (
           <Input
             className="content"
             onChange={e => {
-              let timeout;
               if (timeout) clearTimeout(timeout);
               const value = e.target.value;
               timeout = setTimeout(() => {

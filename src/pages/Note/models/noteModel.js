@@ -1,9 +1,11 @@
+/* eslint-disable no-param-reassign */
 import {
   getAllNotesRequest,
   createNoteRequest,
   deleteNoteRequest,
   updateNoteRequest,
 } from '@/services/noteService';
+import produce from 'immer';
 
 export default {
   namespace: 'noteModel',
@@ -32,12 +34,12 @@ export default {
     },
     *createNote({ payload }, { put }) {
       try {
-        yield createNoteRequest(payload);
+        const response = yield createNoteRequest(payload);
+        const createdNote = response.post;
         yield put({
           type: 'createNoteSuccess',
-          payload: {},
+          payload: createdNote,
         });
-        yield put({ type: 'getAllNotes' });
       } catch (error) {
         yield put({
           type: 'createNoteError',
@@ -48,10 +50,10 @@ export default {
     *updateNote({ payload }, { put }) {
       try {
         const response = yield updateNoteRequest(payload);
-        const updateNoteObj = response.data.post;
+        const updatedNoteObj = response.post;
         yield put({
           type: 'updateNoteSuccess',
-          payload: updateNoteObj,
+          payload: updatedNoteObj,
         });
       } catch (error) {
         yield put({
@@ -65,9 +67,8 @@ export default {
         yield deleteNoteRequest(payload.id);
         yield put({
           type: 'deleteNoteSuccess',
-          payload: {},
+          payload: payload.id,
         });
-        yield put({ type: 'getAllNotes' });
       } catch (error) {
         yield put({
           type: 'deleteNoteError',
@@ -99,9 +100,12 @@ export default {
         ...state,
       };
     },
-    createNoteSuccess(state) {
+    createNoteSuccess(state, { payload }) {
+      const createdNote = payload;
+      const updatedNotes = state.notes.concat(createdNote);
       return {
         ...state,
+        notes: updatedNotes,
       };
     },
     createNoteError(state) {
@@ -115,9 +119,14 @@ export default {
       };
     },
     updateNoteSuccess(state, { payload }) {
+      const updatedNote = payload;
+      const notesDraft = produce(state.notes, draft => {
+        const index = draft.findIndex(note => note.id === updatedNote.id);
+        draft[index] = updatedNote;
+      });
       return {
         ...state,
-        updatedNote: payload,
+        notes: notesDraft,
       };
     },
     updateNoteError(state) {
@@ -130,9 +139,15 @@ export default {
         ...state,
       };
     },
-    deleteNoteSuccess(state) {
+    deleteNoteSuccess(state, { payload }) {
+      const deletedNoteId = payload;
+      const notesDraft = produce(state.notes, draft => {
+        const index = draft.findIndex(note => note.id === deletedNoteId);
+        draft.splice(index, 1);
+      });
       return {
         ...state,
+        notes: notesDraft,
       };
     },
     deleteNoteError(state) {
