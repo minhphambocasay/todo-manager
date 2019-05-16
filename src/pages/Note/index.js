@@ -9,15 +9,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import CommentList from '@/components/CommentList';
 import SearchBox from '@/components/SearchBox';
 import styles from './index.less';
-import { getCurrentUsers } from '../../socket';
+import configureSocket, { sayHello } from '../../socket';
 import 'react-toastify/dist/ReactToastify.css';
+
+const faker = require('faker');
 
 const Note = ({ notes, dispatch, loadingPostComment, user }) => {
   const [inputValue, setInputValue] = useState('');
   const [visible, setVisible] = useState(false);
   const [commentText, setCommentText] = useState('');
   const [prevLoadingPostComment, setPrevLoadingPostComment] = useState(false);
-
+  const [message, setMessage] = useState('testmessgae');
   const onPostComment = useCallback(() => {
     dispatch({
       type: 'taskListDraftModel/postComment',
@@ -34,13 +36,6 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
       setCommentText('');
     }
   }
-
-  useEffect(() => {
-    getCurrentUsers();
-    dispatch({
-      type: 'noteModel/getAllNotes',
-    });
-  }, []);
 
   const handleCreateNote = useCallback(data => {
     // eslint-disable-line no-param-reassign
@@ -98,13 +93,26 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
 
   const searchBoxCb = useCallback(() => {}, []);
 
-  const showNoti = useCallback(() => {
-    toast('Wow so easy !');
+  const showNoti = useCallback(messageSent => {
+    console.log(messageSent);
+    toast(`${messageSent} just connected`);
+  }, []);
+
+  useEffect(() => {
+    console.log(102);
+    configureSocket(showNoti);
+    const a = faker.name.firstName();
+    sayHello(a);
+    setMessage(a);
+    dispatch({
+      type: 'noteModel/getAllNotes',
+    });
   }, []);
 
   const columns = [
     {
       title: 'Completed',
+      key: 'completed',
       dataIndex: null,
       width: 150,
       render: data => {
@@ -115,6 +123,7 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
     },
     {
       title: 'Content',
+      key: 'content',
       dataIndex: null,
       render: data => {
         let timeout;
@@ -136,6 +145,7 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
     },
     {
       title: 'Assignee',
+      key: 'assignee',
       dataIndex: null,
       render: data => {
         return (
@@ -147,6 +157,7 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
     },
     {
       title: 'In Progress',
+      key: 'in_progress',
       dataIndex: null,
       width: 150,
       render: data => {
@@ -173,6 +184,7 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
     },
     {
       title: '',
+      key: 'actions',
       dataIndex: null,
       width: 100,
       render: data => {
@@ -195,6 +207,7 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
 
   return (
     <div className="note">
+      <div>{message}</div>
       <div className="noteInput">
         <Input
           onChange={handleOnKeyPress}
@@ -203,7 +216,11 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
           placeholder="What needs to be done?"
         />
       </div>
-      {notes && notes.length ? <Table columns={columns} dataSource={notes} /> : <Empty />}
+      {notes && notes.length ? (
+        <Table rowKey="uid" columns={columns} dataSource={notes} />
+      ) : (
+        <Empty />
+      )}
 
       <div />
       <Modal

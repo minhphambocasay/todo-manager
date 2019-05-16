@@ -1,17 +1,18 @@
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:8001/note');
+const socket = io('http://localhost:8000/');
 
-const configureSocket = () => {
+const configureSocket = cb => {
   socket.on('connect', () => {
     console.log('connected');
   });
+  socket.on('onSayHello', name => {
+    cb(name);
+  });
 };
 
-export const getCurrentUsers = () => {
-  console.log(12);
-  console.log(socket);
-  socket.emit('GET_CURRENT_USERS');
+export const sayHello = name => {
+  socket.emit('emitSayHello', name);
 };
 
 export default configureSocket;
