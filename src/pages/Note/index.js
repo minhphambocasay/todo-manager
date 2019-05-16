@@ -99,7 +99,6 @@ const Note = ({ notes, dispatch, loadingPostComment, user }) => {
   }, []);
 
   useEffect(() => {
-    console.log(102);
     configureSocket(showNoti);
     const a = faker.name.firstName();
     sayHello(a);

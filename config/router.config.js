@@ -21,7 +21,7 @@ export default [
   {
     path: '/',
     component: '../layouts/BasicLayout',
-    Routes: ['src/pages/Authorized'],
+    // Routes: ['src/pages/Authorized'],
     routes: [
       // dashboard
       { path: '/', redirect: '/dashboard/analysis', authority: ['admin', 'user'] },
