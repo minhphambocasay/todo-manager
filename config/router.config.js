@@ -49,10 +49,29 @@ export default [
         hideInMenu: true,
       },
       {
-        path: '/note',
-        name: 'noteModel',
+        path: '/notes',
+        name: 'Note',
         component: './Note',
-        icon: 'dashboard',
+        icon: 'ordered-list',
+      },
+      // members
+      {
+        path: '/members',
+        name: 'Member',
+        component: './Member',
+        icon: 'team',
+      },
+      {
+        path: '/members/detail/:id',
+        name: 'Member Detail',
+        component: './Member/Detail',
+        hideInMenu: true,
+      },
+      {
+        path: '/members/edit/:id',
+        name: 'Member Edit',
+        component: './Member/Edit',
+        hideInMenu: true,
       },
       {
         path: '/TaskListDraft',

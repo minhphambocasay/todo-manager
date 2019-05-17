@@ -24,7 +24,7 @@ function getModulePackageName(module) {
 }
 
 export default config => {
-  if ( process.env.DEV_MODE === 'site' || process.env.NODE_ENV !== 'production' ) {
+  if (process.env.DEV_MODE === 'site' || process.env.NODE_ENV !== 'production') {
     const outFile = path.join(__dirname, '../.temp/ant-design-pro.less');
     const stylesDir = path.join(__dirname, '../src/');
 

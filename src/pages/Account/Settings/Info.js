@@ -6,12 +6,8 @@ import { connect } from 'dva';
 }))
 class Info extends Component {
   render() {
-    const {currentUser} = this.props
-    return (
-      <div>
-        {currentUser.name}
-      </div>
-    );
+    const { currentUser } = this.props;
+    return <div>{currentUser.name}</div>;
   }
 }
 
